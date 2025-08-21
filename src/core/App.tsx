@@ -1,11 +1,11 @@
-import { VStack } from "@chakra-ui/react";
+import { Routes, Route } from "react-router";
 import "./App.css";
 
 function App() {
   return (
-    <VStack>
-      <></>
-    </VStack>
+    <Routes>
+      <Route path="/" element={<></>} />
+    </Routes>
   );
 }
 
