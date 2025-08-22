@@ -1,1 +1,1 @@
-export { Schedule } from './pages/Schedule'
+export { Schedule, Meeting } from "./pages";
