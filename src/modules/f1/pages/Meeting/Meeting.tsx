@@ -1,7 +1,8 @@
 import { VStack } from "@chakra-ui/react";
-import { styles } from "./Meeting.style";
 import { InformationBar } from "./components/InformationBar";
+import { Main } from "./components/Main";
 import { useInformationBar } from "./hooks/useInformationBar";
+import { styles } from "./Meeting.style";
 
 export const Meeting = () => {
   const informationBar = useInformationBar();
@@ -12,6 +13,7 @@ export const Meeting = () => {
       <InformationBar {...informationBar} />
 
       {/* Main Content */}
+      <Main />
 
       {/* Timeline */}
     </VStack>
