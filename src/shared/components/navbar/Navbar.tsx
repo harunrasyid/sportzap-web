@@ -21,6 +21,7 @@ const Navbar = ({ isBackground = true }: { isBackground?: boolean }) => {
     }
   }, [])
 
+
   return (
     <Sticky transition={'all 0.3s ease-in-out'} shadow={isScrolled ? 'sm' : 'none'} backgroundColor={(isScrolled || isBackground) ? color.backgrounds.primary : 'transparent'} width={'100%'} zIndex={999}>
       <Container maxW={'7xl'}>
