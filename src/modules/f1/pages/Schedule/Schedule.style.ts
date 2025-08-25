@@ -3,18 +3,22 @@ import type { SystemStyleObject } from "@chakra-ui/react";
 
 const styles = {
   page: {
-    height: "100dvh",
+    minHeight: "100dvh",
     width: "100vw",
 
     // Background related
     backgroundColor: color.backgrounds.primary,
   },
   card: {
-    // display: "flex",
     backgroundColor: color.noirEclipse[800],
     borderRadius: 12,
     padding: '12px 24px',
-    border: `1px solid ${color.noirEclipse[400]}`
+    border: `1px solid ${color.noirEclipse[400]}`,
+    height: '100%',
+    _hover: {
+      cursor: 'pointer',
+      backgroundColor: color.noirEclipse[700],
+    },
   },
   cardItem: {
     display: 'flex',
