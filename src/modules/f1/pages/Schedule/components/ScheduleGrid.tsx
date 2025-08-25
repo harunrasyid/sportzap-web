@@ -1,46 +1,40 @@
-import { Grid, GridItem } from "@chakra-ui/react";
-import type { ISchedule } from "../types/Schedule.type";
+import { Grid, GridItem, Text, Skeleton } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import { ScheduleCard } from "./ScheduleCard";
-import type { IMeeting } from "../types/Meeting.type";
-
-// const fetchSchedules = async (): Promise<ISchedule[]> => {
-//   const url = "https://api.openf1.org/v1/sessions?date_start>=2025-01-01&date_end<=2025-10-30"
-
-//   try {
-//     const res = await fetch(url)
-//     return res.json()
-//   } catch (_error) {
-//     throw new Error("Failed to fetch schedules");
-//   }
-// }
-
-const fetchMeetings = async (): Promise<IMeeting[]> => {
-  const url = "https://api.openf1.org/v1/meetings?year=2025"
-
-  try {
-    const res = await fetch(url)
-    return res.json()
-  } catch (_error) {
-    throw new Error("Failed to fetch schedules");
-  }
-}
+import useScheduleYear from "../context/useScheduleYear";
+import { fetchMeetings } from "../queries/meeting";
 
 export function ScheduleGrid() {
-  const { data } = useQuery({
-    queryKey: ['meetings'],
-    queryFn: fetchMeetings
+  const { year, countryCode } = useScheduleYear();
+  const { data, error, isLoading } = useQuery({
+    queryKey: ['meetings', year[0], countryCode],
+    queryFn: () => fetchMeetings(year, countryCode.toUpperCase())
   })
 
-  console.log(data);
-
   return (
-    <Grid templateColumns="repeat(12, 1fr)" gap="6">
-      {!!data && data.map((schedule, index) => (
-        <GridItem key={index} colSpan={4}>
-          <ScheduleCard schedule={schedule} />
+    <Grid templateColumns="repeat(12, 1fr)" gap="6" width={'100%'}>
+      {isLoading ? (
+        Array(3).fill(null).map((_, index) => (
+          <GridItem key={index} colSpan={4}>
+            <Skeleton height="150px" />
+          </GridItem>
+        ))
+      ) : data ? (
+        data.length > 0 ? (
+          data.map((schedule, index) => (
+            <GridItem key={index} colSpan={4}>
+              <ScheduleCard schedule={schedule} />
+            </GridItem>
+          ))
+        ) :
+          <GridItem colSpan={4}>
+            <Text textAlign={'left'}>No data available</Text>
+          </GridItem>
+      ) : error && (
+        <GridItem colSpan={4}>
+          <Text textAlign={'left'}>Failed to fetch data</Text>
         </GridItem>
-      ))}
+      )}
     </Grid>
   )
 }
